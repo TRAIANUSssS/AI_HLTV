@@ -3,11 +3,9 @@
 *.pyc
 out
 gen
-data
 build
 dist
 /build/
-/data/
 /dist/
 /__pycache__/
 .gitattributes
