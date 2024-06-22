@@ -1,10 +1,4 @@
-import datetime
 import pickle
-import traceback
-
-import requests
-from bs4 import BeautifulSoup
-from tqdm import tqdm
 
 import Constants as con
 
