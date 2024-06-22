@@ -197,6 +197,10 @@ class MatchesPages:
             file.write(str(soup.prettify()))
 
     def unite_all_pickle_files(self):
+        self.get_results_data()
+        self.edit_results_data()
+        self.total_matches = len(self.all_matches_list)
+
         united_dict = {}
         for self.current_match_num in tqdm(range(self.total_matches)):
             path = f'{con.MAIN_PATH}Data/Matches/MatchesData/match_page_{self.current_match_num}.pkl'
