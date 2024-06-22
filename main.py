@@ -16,7 +16,8 @@ if __name__ == "__main__":
     # print(pickle.load(open(f'{con.MAIN_PATH}Data/Ranking/ranking_stats_week_{1}.pkl', "rb")))
 
     # RankingParsing().unite_all_pickle_files()
-    # ResultPageParsing.ResultParsing().unite_all_pickle_files()
+    ResultPageParsing.ResultParsing().go_every_page()
+    ResultPageParsing.ResultParsing().unite_all_pickle_files()
     FilteringResultsByRank.FilteringByRank().filter()
 
     # print(int(time.time()))

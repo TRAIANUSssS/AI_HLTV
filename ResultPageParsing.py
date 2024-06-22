@@ -78,6 +78,7 @@ class ResultParsing:
                 score_element = match_element.find("td", {"class": "result-score"}).text.replace("\n", "")
                 score_element = score_element.replace("- ", "").split()
                 stars = match_element.find("div", {"class": "stars"})
+                link = "https://www.hltv.org" + match_element.find("a", {"class": "a-reset"}).get("href")
                 if stars is not None:
                     stars = len(stars.find_all("i"))
                 else:
@@ -90,6 +91,7 @@ class ResultParsing:
                     "score1": score_element[0],
                     "score2": score_element[1],
                     "stars": stars,
+                    "link": link,
                 }, )
             self.main_dict[unix_time] = matches
 
