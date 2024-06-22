@@ -38,6 +38,8 @@ class FilteringByRank:
                 total_matches_counter += 1
                 total_score = int(match_info["score1"]) + int(match_info["score2"])
                 total_maps_counter += 1 if total_score > 13 else total_score
+            if not self.filtered_results_data[result_date]:
+                del self.filtered_results_data[result_date]
 
         print("matches count:", matches_counter, "maps count:", maps_counter)
         print("total matches count:", total_matches_counter, "total maps count:", total_maps_counter)
