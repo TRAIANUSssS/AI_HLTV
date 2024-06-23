@@ -32,6 +32,8 @@ MONTHS_INVERSE = {
     "december": 12,
 }
 
+MAP_POOL = ["Inferno", "Anubis", "Cache", "Mirage", "Vertigo", "Dust2", "Nuke", "Ancient", "Overpass", "Train"]
+
 headers_for_ranking_stats = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
@@ -82,4 +84,20 @@ headers_for_match_page = {
     'Cache-Control': 'no-cache',
     # Requests doesn't support trailers
     # 'TE': 'trailers',
+}
+
+headers_for_teams_matches_pages = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+    'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    'Referer': '',
+    'Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'same-origin',
+    'Sec-Fetch-User': '?1',
+    'Priority': 'u=1',
+    'Pragma': 'no-cache',
+    'Cache-Control': 'no-cache',
 }
