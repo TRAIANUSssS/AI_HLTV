@@ -9,13 +9,14 @@ import AllTeamsMapsParsing
 import FilteringResultsByRank
 import MatchsPagesParsing
 import ResultPageParsing
+import TournamentsStatsParser
 from RankingParsing import RankingParsing
 import Constants as con
 
 if __name__ == "__main__":
     # print(time.time())
     # print(datetime.datetime.strptime("2024-06-20", format).timestamp() + 3600 * 3)
-    # print(type(pickle.load(open(f'{con.MAIN_PATH}Data/Matches/MatchesData/match_complete.pkl', "rb"))))
+    print(pickle.load(open(f'{con.MAIN_PATH}Data/TournamentsStats/Stats/tours_complete.pkl', "rb")))
 
     # RankingParsing().go_every_week()
     # RankingParsing().unite_all_pickle_files()
@@ -25,7 +26,9 @@ if __name__ == "__main__":
     # MatchsPagesParsing.MatchesPages().go_every_match()
     # MatchsPagesParsing.MatchesPages().unite_all_pickle_files()
     # AllTeamsMapsParsing.TeamsMatchesParsing().go_every_team()
-    AllTeamsMapsParsing.TeamsMatchesParsing().unite_all_pickle_files()
+    # AllTeamsMapsParsing.TeamsMatchesParsing().unite_all_pickle_files()
+    # TournamentsStatsParser.TournamentsStatsParsing().go_every_tournament()
+    # TournamentsStatsParser.TournamentsStatsParsing().unite_all_pickle_files()
 
     # print(int(time.time()))
     # current_week_day = datetime.datetime.now().weekday()

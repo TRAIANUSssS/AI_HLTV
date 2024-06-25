@@ -30,6 +30,19 @@ MONTHS_INVERSE = {
     "october": 10,
     "november": 11,
     "december": 12,
+
+    "jan": 1,
+    "feb": 2,
+    "mar": 3,
+    "apr": 4,
+    # "may": 5,
+    "jun": 6,
+    "jul": 7,
+    "aug": 8,
+    "sep": 9,
+    "oct": 10,
+    "nov": 11,
+    "dec": 12,
 }
 
 MAP_POOL = ["Inferno", "Anubis", "Cache", "Mirage", "Vertigo", "Dust2", "Nuke", "Ancient", "Overpass", "Train"]
@@ -91,6 +104,23 @@ headers_for_teams_matches_pages = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
     'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
     'Referer': '',
+    'Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'same-origin',
+    'Sec-Fetch-User': '?1',
+    'Priority': 'u=1',
+    'Pragma': 'no-cache',
+    'Cache-Control': 'no-cache',
+}
+
+headers_for_tournaments_stats = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+    'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+    # 'Referer': 'https://www.hltv.org/team/12124/insilio',
+    'Alt-Used': 'www.hltv.org',
     'Connection': 'keep-alive',
     'Upgrade-Insecure-Requests': '1',
     'Sec-Fetch-Dest': 'document',
