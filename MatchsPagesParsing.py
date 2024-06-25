@@ -10,6 +10,7 @@ import Constants as con
 
 example_dict = {
     "id_MatchName": {
+        "date": 1718150400,
         "is_grand_final": True,
         "team1": "name1",
         "team2": "name2",
@@ -45,10 +46,15 @@ class MatchesPages:
 
         self.current_match_num = 0
         for match_data in tqdm(self.all_matches_list):
+            if match_data["link"].count("showmatch"):
+                self.current_match_num += 1
+                continue
+
             if not os.path.exists(f'{con.MAIN_PATH}Data/Matches/HTML/match_page_{self.current_match_num}.html'):
                 self.soup = self.get_match_page(match_data["link"])
             else:
-                self.soup = self.get_exist_html_file()
+                self.soup = self.get_exist_html_file(match_data["link"])
+
             if self.soup is not None:
                 try:
                     self.save_page_into_html(self.soup)
@@ -71,10 +77,15 @@ class MatchesPages:
             print("Bad response")
             return None
 
-    def get_exist_html_file(self):
+    def get_exist_html_file(self, link):
         with open(f'{con.MAIN_PATH}Data/Matches/HTML/match_page_{self.current_match_num}.html', "r",
                   encoding="utf-8") as fp:
             soup = BeautifulSoup(fp, 'html.parser')
+        test_soup = soup.find("div", {"class": "bgPadding"})
+
+        if test_soup is None:
+            soup = self.get_match_page(link)
+
         return soup
 
     def get_match_id(self, link):
@@ -92,10 +103,12 @@ class MatchesPages:
         tournament_link = self.get_tournament_link()
         team1_link, team2_link = self.get_teams_links()
         players, players_links = self.get_players_and_links(team1_name)
+        date = self.get_match_date()
 
-        # print(is_grand_final, maps_count, team1_name, team2_name, maps_list, who_picked, tournament_link,
+        # print(date, is_grand_final, maps_count, team1_name, team2_name, maps_list, who_picked, tournament_link,
         #       team1_link, team2_link, players, players_links)
         self.matches_data[match_id] = {
+            "date": date,
             "is_grand_final": is_grand_final,
             "team1": team1_name,
             "team2": team2_name,
@@ -109,6 +122,11 @@ class MatchesPages:
             "players_links": players_links
         }
         return True
+
+    def get_match_date(self):
+        date = self.soup.find("div", {"class": "date"}).get("data-unix")
+        date = int(date) // 1000
+        return date
 
     def get_players_and_links(self, team1_name):
         players = []
@@ -206,7 +224,8 @@ class MatchesPages:
             path = f'{con.MAIN_PATH}Data/Matches/MatchesData/match_page_{self.current_match_num}.pkl'
             if os.path.exists(path):
                 current_data = pickle.load(open(path, "rb"))
-                united_dict.update(current_data)
+                if "date" in list(current_data.values())[0].keys():
+                    united_dict.update(current_data)
 
         print("keys in dict:", len(united_dict.keys()))
         pickle.dump(united_dict, open(f'{con.MAIN_PATH}Data/Matches/MatchesData/match_complete.pkl', "wb"))
