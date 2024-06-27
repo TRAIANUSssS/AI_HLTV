@@ -22,6 +22,8 @@ example_dict = {
                     "score1": 13,
                     "score2": 4,
                     "match_link": 'link',
+                    "is_first_map": False,
+                    "is_first_match": True,
                 }
             ]
     }
@@ -81,6 +83,7 @@ class TeamsMatchesParsing:
             if self.soup is not None:
                 try:
                     self.parse_matches_pages()
+                    self.add_is_first_match_map()
                     self.save_into_pickle_file()
                     self.save_page_into_html(self.soup)
                     self.clear_info_dict()
@@ -124,6 +127,40 @@ class TeamsMatchesParsing:
             "all_played_maps": all_played_maps,
         }
         # print(self.all_teams_matches_data)
+
+    def add_is_first_match_map(self):
+        all_tours = {}
+        tmp_all_matches_data = []
+        reversed_all_matches_data = list(self.all_teams_matches_data.values())[0]["all_played_maps"][::-1]
+        prev_tour = reversed_all_matches_data[0]["tournament_name"]
+        prev_opponent = reversed_all_matches_data[0]["opponent"]
+        is_first_match = True
+
+        for val in reversed_all_matches_data:
+            all_tours[val["tournament_name"]] = False
+
+        tmp_match = reversed_all_matches_data[0]
+        tmp_match["is_first_map"] = True
+        tmp_match["is_first_match"] = True
+        all_tours[reversed_all_matches_data[0]["tournament_name"]] = True
+        tmp_all_matches_data.append(tmp_match)
+
+        for match in reversed_all_matches_data[1:]:
+            curr_tour = match["tournament_name"]
+            curr_opponent = match["opponent"]
+            is_first_map = prev_tour != curr_tour
+            is_first_match = False if prev_tour != curr_tour else is_first_match
+            is_first_match = True if is_first_map and not all_tours[curr_tour] else is_first_match
+            is_first_match = False if prev_opponent != curr_opponent and not is_first_map else is_first_match
+            tmp_match = match
+            tmp_match["is_first_map"] = is_first_map
+            tmp_match["is_first_match"] = is_first_match
+            tmp_all_matches_data.append(tmp_match)
+            prev_opponent = curr_opponent
+            prev_tour = curr_tour
+            all_tours[curr_tour] = True
+        self.all_teams_matches_data[self.current_team_name]["all_played_maps"] = tmp_all_matches_data[::-1]
+
 
     def get_soup(self):
         if not os.path.exists(
