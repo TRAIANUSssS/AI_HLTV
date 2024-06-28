@@ -8,6 +8,7 @@ from tqdm import tqdm
 import AllTeamsMapsParsing
 import FilteringResultsByRank
 import GetLinksToMatches
+import Last5MatchesGetData
 import MatchsPagesParsing
 import ResultPageParsing
 import TeamsOverviewParsing
@@ -42,7 +43,8 @@ if __name__ == "__main__":
     # TeamsOverviewParsing.TeamsParsing(True).unite_all_pickle_files()
     # TeamsOverviewParsing.TeamsParsing(False).go_every_team()
     # TeamsOverviewParsing.TeamsParsing(False).unite_all_pickle_files()
-    GetLinksToMatches.GetLinks().get_links()
+    # GetLinksToMatches.GetLinks().get_links()
+    Last5MatchesGetData.Last5Matches().go_every_match()
 
     # print(int(time.time()))
     # current_week_day = datetime.datetime.now().weekday()
