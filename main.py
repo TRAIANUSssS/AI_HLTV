@@ -8,6 +8,8 @@ from tqdm import tqdm
 import AllTeamsMapsParsing
 import FilteringResultsByRank
 import GetLinksToMatches
+import GetLinksToPlayersStats
+import GetPlayersStats
 import Last5MatchesGetData
 import MatchsPagesParsing
 import ResultPageParsing
@@ -26,6 +28,7 @@ if __name__ == "__main__":
     # date = pickle.load(open(f'{con.MAIN_PATH}Data/TeamsMaps/Pages/team_matches_page_1.pkl', "rb"))
     # for val in list(date["3DMAX"]["all_played_maps"]):
     #     print(val["opponent"], val["tournament_name"], val["map_name"], val["is_first_map"], val["is_first_match"], val["date"],)
+    # print(list(pickle.load(open(f'{con.MAIN_PATH}Data/PlayersStats/filtered_players_links.pkl', "rb")).values())[0])
 
 
     # RankingParsing().go_every_week()
@@ -44,7 +47,9 @@ if __name__ == "__main__":
     # TeamsOverviewParsing.TeamsParsing(False).go_every_team()
     # TeamsOverviewParsing.TeamsParsing(False).unite_all_pickle_files()
     # GetLinksToMatches.GetLinks().get_links()
-    Last5MatchesGetData.Last5Matches().go_every_match()
+    # Last5MatchesGetData.Last5Matches().go_every_match()
+    # GetLinksToPlayersStats.GetLinks().get_links()
+    GetPlayersStats.GetPlayersStats().go_every_link()
 
     # print(int(time.time()))
     # current_week_day = datetime.datetime.now().weekday()
