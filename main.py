@@ -5,11 +5,13 @@ import datetime
 
 from tqdm import tqdm
 
+import AddRangToMatchData
 import AllTeamsMapsParsing
 import FilteringResultsByRank
 import GetLinksToMatches
 import GetLinksToPlayersStats
 import GetPlayersStats
+import GetPlayersTeamsData
 import Last5MatchesGetData
 import MatchsPagesParsing
 import ResultPageParsing
@@ -30,6 +32,10 @@ if __name__ == "__main__":
     #     print(val["opponent"], val["tournament_name"], val["map_name"], val["is_first_map"], val["is_first_match"], val["date"],)
     # print(list(pickle.load(open(f'{con.MAIN_PATH}Data/PlayersStats/filtered_players_links.pkl', "rb")).values())[0])
 
+    # [print(value) for value in pickle.load(open(f'{con.MAIN_PATH}Data/PlayersStats/all_players_links.pkl', "rb"))]
+    # print(datetime.datetime.fromtimestamp(1718582400).strftime("%A"))
+
+
 
     # RankingParsing().go_every_week()
     # RankingParsing().unite_all_pickle_files()
@@ -49,7 +55,9 @@ if __name__ == "__main__":
     # GetLinksToMatches.GetLinks().get_links()
     # Last5MatchesGetData.Last5Matches().go_every_match()
     # GetLinksToPlayersStats.GetLinks().get_links()
-    GetPlayersStats.GetPlayersStats().go_every_link()
+    # GetPlayersStats.GetPlayersStats().go_every_link()
+    # GetPlayersTeamsData.GetPlayersTeamsData().go_every_link()
+    AddRangToMatchData.AddRang().go_every_match()
 
     # print(int(time.time()))
     # current_week_day = datetime.datetime.now().weekday()
