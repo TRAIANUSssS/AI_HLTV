@@ -5,6 +5,7 @@ import datetime
 
 from tqdm import tqdm
 
+import AddDaysInTeamToMatchData
 import AddRangToMatchData
 import AllTeamsMapsParsing
 import FilteringResultsByRank
@@ -57,7 +58,8 @@ if __name__ == "__main__":
     # GetLinksToPlayersStats.GetLinks().get_links()
     # GetPlayersStats.GetPlayersStats().go_every_link()
     # GetPlayersTeamsData.GetPlayersTeamsData().go_every_link()
-    AddRangToMatchData.AddRang().go_every_match()
+    # AddRangToMatchData.AddRang().go_every_match()
+    AddDaysInTeamToMatchData.AddDaysInTeam().go_every_match()
 
     # print(int(time.time()))
     # current_week_day = datetime.datetime.now().weekday()
