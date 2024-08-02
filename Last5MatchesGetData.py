@@ -49,6 +49,7 @@ class Last5Matches:
         self.match_data = []
         self.ranking_data = {}
         self.all_links = []
+        self.all_html_files = os.listdir(f'{con.MAIN_PATH}Data/Last5Matches/HTML/')
         self.current_link = ""
         self.file_name = ""
         self.soup = None
@@ -61,6 +62,8 @@ class Last5Matches:
         # for self.current_link in self.all_links[:2]:
             self.file_name = self.current_link.replace("https://www.hltv.org/stats/matches/mapstatsid/", "")
             self.file_name = self.file_name.replace("/", "_").replace("&contextTypes=team", "").replace("?", "(1)")
+            if f"{self.file_name}.html" in self.all_html_files:
+                continue
             self.get_soup()
 
             if self.soup is not None:
@@ -99,7 +102,8 @@ class Last5Matches:
             if _print:
                 print(stat_index, stat_name, self.match_data[stat_index])
             self.parsed_data[stat_name] = self.match_data[stat_index]
-
+        if self.parsed_data["team1"] == "KOI":
+            print(self.file_name)
         self.save_into_pickle_file(self.parsed_data["team1"])
         self.clear_parsed_data()
 
@@ -153,7 +157,7 @@ class Last5Matches:
             soup = BeautifulSoup(response.text, "html.parser")
             return soup
         else:
-            print("Bad response")
+            print("Bad response", self.current_link)
             return None
 
     def get_exist_html_file(self):

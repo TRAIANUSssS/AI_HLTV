@@ -8,6 +8,7 @@ from tqdm import tqdm
 import AddDaysInTeamToMatchData
 import AddRangToMatchData
 import AllTeamsMapsParsing
+import EditBadFilesNames
 import FilteringResultsByRank
 import GetLinksToMatches
 import GetLinksToPlayersStats
@@ -18,6 +19,7 @@ import MatchsPagesParsing
 import ResultPageParsing
 import TeamsOverviewParsing
 import TournamentsStatsParser
+import UniteAllStats
 from RankingParsing import RankingParsing
 import Constants as con
 
@@ -35,6 +37,8 @@ if __name__ == "__main__":
 
     # [print(value) for value in pickle.load(open(f'{con.MAIN_PATH}Data/PlayersStats/all_players_links.pkl', "rb"))]
     # print(datetime.datetime.fromtimestamp(1718582400).strftime("%A"))
+    # [print(value) for value in list(pickle.load(open(f'{con.MAIN_PATH}Data/Last5Matches/filtered_matches_data.pkl', "rb")).values())]
+    # [print(value) for value in list(pickle.load(open(f'{con.MAIN_PATH}Data/Last5Matches/filtered_matches_data.pkl', "rb")))]
 
 
 
@@ -59,7 +63,9 @@ if __name__ == "__main__":
     # GetPlayersStats.GetPlayersStats().go_every_link()
     # GetPlayersTeamsData.GetPlayersTeamsData().go_every_link()
     # AddRangToMatchData.AddRang().go_every_match()
-    AddDaysInTeamToMatchData.AddDaysInTeam().go_every_match()
+    # AddDaysInTeamToMatchData.AddDaysInTeam().go_every_match()
+    # EditBadFilesNames.edit_players_stats_files()
+    UniteAllStats.UniteData().go_every_match()
 
     # print(int(time.time()))
     # current_week_day = datetime.datetime.now().weekday()

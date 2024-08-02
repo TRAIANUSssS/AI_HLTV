@@ -42,6 +42,8 @@ class AddDaysInTeam:
                     print(player_name, "https://www.hltv.org/matches/" + key.replace("_", "/", 1))
 
             print(players_days_in_team, key)
+            self.all_matches_data[key]["days_in_team"] = players_days_in_team
+        pickle.dump(self.all_matches_data, open(f'{con.MAIN_PATH}Data/Matches/MatchesData/match_complete.pkl', "wb"))
 
     def edit_player_name(self, player_name):
         player_name = player_name.replace("-", "")

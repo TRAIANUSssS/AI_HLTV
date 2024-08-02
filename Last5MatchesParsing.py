@@ -89,7 +89,7 @@ def get_players_stats(soup):
             deaths = player_element.find("td", {"class": "st-deaths"}).text.replace("\n", "").strip()
             kast = player_element.find("td", {"class": "st-kdratio"}).text.replace("\n", "").strip()
             kd_diff = player_element.find("td", {"class": "st-kddiff"}).text.replace("\n", "").strip()
-            adr = player_element.find("td", {"class": "st-adr"}).text.replace("\n", "").strip()
+            adr = player_element.find("td", {"class": "st-adr"}).text.replace("\n", "").strip().replace("-", "0")
             FK = player_element.find("td", {"class": "st-fkdiff"}).text.replace("\n", "").strip()
             rating = player_element.find("td", {"class": "st-rating"}).text.replace("\n", "").strip()
 

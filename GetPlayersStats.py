@@ -5,11 +5,14 @@ import time
 import traceback
 
 import requests
+import urllib3
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
 import Constants as con
 import ParsePlayersStats
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 example_dict = {
     "name": "name",
@@ -54,17 +57,31 @@ class GetPlayersStats:
 
     def go_every_link(self):
         self.get_filtered_players_links()
+        all_files = os.listdir(f'{con.MAIN_PATH}Data/PlayersStats/Stats/')
+        non_parsed_pages = []
 
-        for self.current_date in tqdm(list(self.filtered_players_links.keys())):
+        for self.current_date in list(self.filtered_players_links.keys()):
             for self.current_link in self.filtered_players_links[self.current_date]:
                 player_name = self.current_link.split("/")[-1]
                 self.file_name = f'{player_name}_{self.current_date}'
+                if f"{self.file_name}.pkl" not in all_files:
+                    non_parsed_pages.append([self.current_date, self.current_link])
+
+        with tqdm(total=len(non_parsed_pages) * 2) as pbar:
+            for self.current_date, self.current_link in non_parsed_pages:
+                # for self.current_date in list(self.filtered_players_links.keys()):
+                #     for self.current_link in self.filtered_players_links[self.current_date]:
+                player_name = self.current_link.split("/")[-1]
+                self.file_name = f'{player_name}_{self.current_date}'
+                # if f"{self.file_name}.pkl" in all_files:
+                #     pbar.update(1)
+                #     continue
 
                 for prefix in ["overview", "individual"]:
-                    self.edit_link(prefix)
-                    self.get_soup(prefix)
-                    if self.soup is not None:
-                        try:
+                    try:
+                        self.edit_link(prefix)
+                        self.get_soup(prefix)
+                        if self.soup is not None:
                             if prefix == "overview":
                                 self.parse_overview_page()
                             else:
@@ -73,9 +90,10 @@ class GetPlayersStats:
                                 self.save_into_pickle_file()
                                 self.clear_player_stats()
                             self.save_page_into_html(self.soup, prefix)
-                        except:
-                            print(prefix, self.current_link)
-                            print(traceback.format_exc())
+                    except:
+                        print(prefix, self.current_link)
+                        print(traceback.format_exc())
+                    pbar.update(1)
 
     def parse_overview_page(self):
         name = ParsePlayersStats.get_player_name(self.soup)
@@ -86,7 +104,7 @@ class GetPlayersStats:
         kast, impact = ParsePlayersStats.get_kast_and_impact(self.soup)
         age = ParsePlayersStats.get_age(self.soup, 1719608400 - self.current_date)
         self.tmp_data = [name, total_kills, HS, total_deaths, dmg_round, maps_played, rounds_played, kill_round,
-                           assist_round, death_round, rating, rating_5_30, maps_5_30, kast, impact, age,]
+                         assist_round, death_round, rating, rating_5_30, maps_5_30, kast, impact, age, ]
 
     def parse_individual_page(self):
         kills_0_5, open_kills, open_deaths, open_ratio, open_rating, rifle_kills, \
@@ -125,13 +143,13 @@ class GetPlayersStats:
 
     def get_player_page(self, link):
         con.headers_for_teams_matches_pages["Referer"] = link
-        response = requests.get(link, headers=con.headers_for_teams_matches_pages)
+        response = requests.get(link, headers=con.headers_for_teams_matches_pages, verify=False)
         time.sleep(1)
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, "html.parser")
             return soup
         else:
-            print("Bad response")
+            print("Bad response, status code:", response.status_code)
             return None
 
     def get_exist_html_file(self, prefix, link):

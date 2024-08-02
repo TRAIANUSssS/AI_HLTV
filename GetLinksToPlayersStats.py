@@ -23,13 +23,16 @@ class GetLinks:
             match_data = self.all_matches_data[key]
             date = match_data["date"]
             date = date - (date % 86400)
-            if match_data["date"] not in self.keys_in_filtered_data:
+            if date not in self.keys_in_filtered_data:
                 self.keys_in_filtered_data.append(date)
-                self.filtered_players_links[date] = []
+                links = []
+            else:
+                links = self.filtered_players_links[date]
 
             for player_link in list(match_data["players_links"].values()):
-                self.filtered_players_links[date].append(player_link)
+                links.append(player_link)
                 self.all_players_links.append(player_link)
+            self.filtered_players_links[date] = links
 
     def set_filtered_data(self):
         self.all_players_links = list(set(self.all_players_links))

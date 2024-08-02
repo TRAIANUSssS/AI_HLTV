@@ -19,8 +19,9 @@ class GetLinks:
         self.save_filtered_matches()
 
     def get_matches_for_parsing(self):
-        for value in list(self.filtered_matches_data.values()):
-            self.filtered_matches_data_for_parsing += value
+        for team_val in list(self.filtered_matches_data.values()):
+            for value in team_val.values():
+                self.filtered_matches_data_for_parsing += value
 
         print("len", len(self.filtered_matches_data_for_parsing))
         self.filtered_matches_data_for_parsing = list(set(self.filtered_matches_data_for_parsing))
@@ -31,11 +32,14 @@ class GetLinks:
             date = self.all_matches_data[match_id]["date"]
             date = date - (date % 86400)
             team1, team2 = self.all_matches_data[match_id]["team1"], self.all_matches_data[match_id]["team2"]
+            self.filtered_matches_data[match_id] = {}
             prev_matches_list = []
             for team in [team1, team2]:
+                opponent = team1 if team == team2 else team2
                 # print(date, self.all_matches_data[match_id]["team1_link"])
                 # print(self.all_teams_maps[team]["all_played_maps"])
                 start_index = self.get_match_index(date, self.all_teams_maps[team]["all_played_dates"])
+                # print(start_index)
 
                 matches_found = 0
                 find_current_match = False
@@ -45,18 +49,20 @@ class GetLinks:
                     match_date = self.all_teams_maps[team]["all_played_maps"][match_index]
                     if matches_found == 5 and prev_opponent != match_date["opponent"]:
                         break
-                    if match_date["opponent"] == team2:
+                    if match_date["opponent"] == opponent:
                         find_current_match = True
                         continue
-                    elif find_current_match and match_date["opponent"] != team2:
+                    elif find_current_match and match_date["opponent"] != opponent:
                         # prev_match_data = [match_date["match_link"], match_date["is_first_map"],
                         #                    match_date["is_first_match"]]
                         prev_matches_list.append(match_date["match_link"])
                         if prev_opponent != match_date["opponent"]:
                             prev_opponent = match_date["opponent"]
                             matches_found += 1
-
-            self.filtered_matches_data[match_id] = prev_matches_list
+                if match_id == "2368849_entropiq-vs-koi-pgl-cs2-major-copenhagen-2024-europe-rmr-open-qualifier-1":
+                    print(team1, team2, prev_matches_list)
+                self.filtered_matches_data[match_id][team] = prev_matches_list
+                prev_matches_list = []
             # print(self.filtered_matches_data[match_id])
 
     def get_match_index(self, date, all_dates):
