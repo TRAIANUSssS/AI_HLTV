@@ -20,6 +20,7 @@ import ResultPageParsing
 import TeamsOverviewParsing
 import TournamentsStatsParser
 import UniteAllStats
+import EditAllStats
 from RankingParsing import RankingParsing
 import Constants as con
 
@@ -65,7 +66,8 @@ if __name__ == "__main__":
     # AddRangToMatchData.AddRang().go_every_match()
     # AddDaysInTeamToMatchData.AddDaysInTeam().go_every_match()
     # EditBadFilesNames.edit_players_stats_files()
-    UniteAllStats.UniteData().go_every_match()
+    # UniteAllStats.UniteData().go_every_match()
+    EditAllStats.EditAllStats().go_every_match()
 
     # print(int(time.time()))
     # current_week_day = datetime.datetime.now().weekday()

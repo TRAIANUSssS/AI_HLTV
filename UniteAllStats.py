@@ -26,7 +26,7 @@ class UniteData:
         self.target = []
 
     def go_every_match(self):
-        for match_id in tqdm(list(self.match_data.keys())[:]):
+        for match_id in tqdm(list(self.match_data.keys())[:1]):
             match_data = self.match_data[match_id]
             if match_id in ["2368849_entropiq-vs-koi-pgl-cs2-major-copenhagen-2024-europe-rmr-open-qualifier-1",
                             "2368843_koi-vs-k10-pgl-cs2-major-copenhagen-2024-europe-rmr-open-qualifier-1"]:
@@ -51,12 +51,12 @@ class UniteData:
                     values_list += self.get_players_stats(players[team_index], match_data["date"])
                 except:
                     # print(traceback.format_exc())
-                    print("bad match:", match_id)
+                    # print("bad match:", match_id)
                     continue
 
-                # for val_index, value in enumerate(values_list):
-                #     print(f"{Constants.ALL_KEYS[val_index]}: {value}")
-                # print("-=" * 100)
+                for val_index, value in enumerate(values_list):
+                    print(f"{Constants.ALL_KEYS[val_index]}: {value}")
+                print("-=" * 100)
 
                 self.train.append(values_list)
                 self.target.append(result)
@@ -64,6 +64,8 @@ class UniteData:
                 team_index = 1
         print(f"len self.train: {len(self.train)}" )
         print(f"len self.train: {len(self.target)}" )
+        # pickle.dump(self.train, open(f'{con.MAIN_PATH}/Data/FinalData/train.pkl', "wb"))
+        # pickle.dump(self.target, open(f'{con.MAIN_PATH}/Data/FinalData/target.pkl', "wb"))
 
     def get_tour_stats(self, link):
         data = self.tournaments_stats[link]
