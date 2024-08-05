@@ -1,6 +1,7 @@
 import copy
 import os
 import pickle
+import re
 import traceback
 
 from tqdm import tqdm
@@ -23,11 +24,14 @@ class EditAllStats:
         self.last_5_matches_one_match_max = 0
         self.last_5_matches_one_match_min = 100
         self.last_5_matches_one_match_list = [0] * 72
+        self.counter = 0
 
     def go_every_match(self):
         [print(val) for val in self.train[0]]
+        print("-="*100)
         complete_new_data = []
-        for match_data in self.train:
+        complete_target_data = []
+        for match_data, target_value in zip(self.train, self.target):
             new_data = []
             for iteration, item in enumerate(match_data):
                 it_result = self.working_with_every_iteration(iteration, item)
@@ -36,8 +40,15 @@ class EditAllStats:
                 else:
                     break
             else:
-                if len(new_data) == 8217:
-                    complete_new_data.append(new_data)
+                if len(new_data) == 8203:
+                    new_data = self.set_int_vals(new_data)
+                    tuples = [(key, value) for i, (key, value) in enumerate(zip(Constants.ALL_KEYS, new_data))]
+                    res = dict(tuples)
+                    complete_new_data.append(res)
+                    complete_target_data.append(target_value)
+
+        pickle.dump(complete_new_data, open(f'{con.MAIN_PATH}/Data/FinalData/train_v2.pkl', "wb"))
+        pickle.dump(complete_target_data, open(f'{con.MAIN_PATH}/Data/FinalData/target_v2.pkl', "wb"))
 
         self.print_data(complete_new_data)
 
@@ -46,7 +57,7 @@ class EditAllStats:
         if iteration == 2:  # who picked first
             iteration_data.append(item[0])
         elif iteration == 23 or iteration == 24:  # add empty maps is it need
-            iteration_data.append("maps_data" + "+" * 100)
+            # iteration_data.append("maps_data" + "+" * 100)
             matches_data = []
             matches_count = len(item)
             for match_index in range(5):
@@ -56,7 +67,7 @@ class EditAllStats:
                     matches_data += item[match_index]
             iteration_data += matches_data
         elif iteration == 25 or iteration == 26:  # working with last 5 matches
-            iteration_data.append("last_5_matches_data" + "+" * 100)
+            # iteration_data.append("last_5_matches_data" + "+" * 100)
 
             for match in item:
                 # self.get_last_5_matches_one_stats_len(match[17])
@@ -68,7 +79,7 @@ class EditAllStats:
                 iteration_data += self.get_players_stats_from_last_5_matches(match[19])
             iteration_data += [-1] * 205 * (19 - len(item))  # 19 - max_maps_count, 205 values in every map
         elif 26 < iteration < 37:
-            iteration_data.append("players_stats" + "+" * 100)
+            # iteration_data.append("players_stats" + "+" * 100)
             if len(item[10]) == 10:
                 return None
             iteration_data += item[:10] + item[12:15] + item[16:]
@@ -78,16 +89,34 @@ class EditAllStats:
 
         return iteration_data
 
+    def set_int_vals(self, data):
+        for index, value in enumerate(data):
+            if value is None:
+                data[index] = -1
+                continue
+            if type(value).__name__ == "int" or type(value).__name__ == "float":
+                continue
+            if type(value).__name__ == "str":
+                value_new = re.sub(r'[a-zA-Z]', '', value).replace("-", "-1")
+                if value_new:
+                    data[index] = float(value_new) if value_new.count(".") else int(value_new)
+                else:
+                    print(value_new, value)
+                    self.counter += 1
+        return data
+
     def print_data(self, complete_new_data):
         # print("-=" * 100)
         # [print(val) for val in complete_new_data[0]]
         # print("-=" * 100)
         print(f"total matches: {len(complete_new_data)}")
-        len_counts = [len(val) for val in complete_new_data]
+        len_counts = [len(list(val.values())) for val in complete_new_data]
         print(f"total_len_min: {min(len_counts)}")
         print(f"total_len_max: {max(len_counts)}")
         print(f"total_len_min count: {len_counts.count(min(len_counts))}")
         print(f"total_len_max count: {len_counts.count(max(len_counts))}")
+
+        print(f"self.counter: {self.counter}")
 
     def get_maps_stats_len(self, maps_stats):
         _len = len(maps_stats)
