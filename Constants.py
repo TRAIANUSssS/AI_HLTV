@@ -1,5 +1,7 @@
 import os
 
+import generateAllKeys
+
 MAIN_PATH = os.getcwd() + "/"
 
 MONTHS = {
@@ -132,47 +134,4 @@ headers_for_tournaments_stats = {
     'Cache-Control': 'no-cache',
 }
 
-ALL_KEYS = [
-    # MATCH
-    "is_grand_final",
-    "maps_count",
-    "who_picked",
-    # "winner",
-    "stars",
-    # Tournament
-    "prize_pool",
-    "for_invite",
-    "is_lan",
-    "start_date",
-    "tour_type",
-    # Team overview
-    "maps_played1",
-    "wins1",
-    "loss1",
-    "kills1",
-    "deaths1",
-    "rounds_played1",
-    "k_d1",
-    "maps_played2",
-    "wins2",
-    "loss2",
-    "kills2",
-    "deaths2",
-    "rounds_played2",
-    "k_d2",
-    #Maps Stats
-    "maps_stats1",
-    "maps_stats2",
-    "last_5_matches1",
-    "last_5_matches2",
-    "player1_stats",
-    "player2_stats",
-    "player3_stats",
-    "player4_stats",
-    "player5_stats",
-    "player6_stats",
-    "player7_stats",
-    "player8_stats",
-    "player9_stats",
-    "player10_stats",
-]
+ALL_KEYS = generateAllKeys.gen_all_keys()
