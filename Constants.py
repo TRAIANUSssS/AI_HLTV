@@ -1,6 +1,6 @@
 import os
 
-import generateAllKeys
+from DataPreparations import generateAllKeys
 
 MAIN_PATH = os.getcwd() + "/"
 

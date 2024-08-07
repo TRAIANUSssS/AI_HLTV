@@ -1,10 +1,10 @@
 def gen_all_keys():
     match_list = ["is_grand_final", "maps_count", "who_picked", "stars"]
     tournament_list = ["prize_pool", "for_invite", "is_lan", "start_date", "tour_type"]
-    team_overview_list = get_team_overview()
-    maps_stats_list = gen_maps_keys()
-    last_5_matches_list = gen_last_5_matches_keys()
-    players_stats_list = get_players_stats_list()
+    team_overview_list = get_team_overview()  # count: 14
+    maps_stats_list = gen_maps_keys()  # count: 60
+    last_5_matches_list = gen_last_5_matches_keys()  # count: 7790
+    players_stats_list = get_players_stats_list()  # count: 330
 
     ALL_KEYS = match_list + \
                tournament_list + \
@@ -12,6 +12,7 @@ def gen_all_keys():
                maps_stats_list + \
                last_5_matches_list + \
                players_stats_list
+    print(len(ALL_KEYS))
     return ALL_KEYS
 
 

@@ -16,12 +16,12 @@ def get_data(path):
 class UniteData:
     def __init__(self):
         self.main_match_list = []
-        self.match_data = get_data("Data/Matches/MatchesData/match_complete.pkl")
-        self.tournaments_stats = get_data("Data/TournamentsStats/Stats/tours_complete.pkl")
-        self.teams_stats = get_data("Data/TeamsOverview/Stats/team_overview_complete.pkl")
-        self.teams_maps = get_data("Data/TeamsMapsStats/Stats/team_maps_stats_complete.pkl")
-        self.last_5_matches_links_list = get_data("Data/Last5Matches/filtered_matches_data.pkl")
-        self.result_pages_data = get_data("Data/Results/All/results_complete.pkl")
+        self.match_data = get_data("../Data/Matches/MatchesData/match_complete.pkl")
+        self.tournaments_stats = get_data("../Data/TournamentsStats/Stats/tours_complete.pkl")
+        self.teams_stats = get_data("../Data/TeamsOverview/Stats/team_overview_complete.pkl")
+        self.teams_maps = get_data("../Data/TeamsMapsStats/Stats/team_maps_stats_complete.pkl")
+        self.last_5_matches_links_list = get_data("../Data/Last5Matches/filtered_matches_data.pkl")
+        self.result_pages_data = get_data("../Data/Results/All/results_complete.pkl")
         self.train = []
         self.target = []
 
